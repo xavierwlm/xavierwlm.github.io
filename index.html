@@ -1,12 +1,560 @@
 <!DOCTYPE html>
+<!--
+  ============================================================
+  PORTFOLIO — single-file GitHub Pages site (EN / FR)
+  ============================================================
+  HOW TO EDIT:
+  - Search for the word  EDIT  to find every spot meant for you.
+  - Each piece of text has two versions:
+        data-en="English text"  data-fr="Texte français"
+    The visible text is just a fallback; the toggle swaps them.
+  - To add your photo: put a file at  images/portrait.jpg  in your
+    repo, then in the hero below replace the .avatar block with:
+        <img src="images/portrait.jpg" alt="Your name" class="portrait">
+  - Default language is English. To start in French instead, change
+        let lang = "en";   ->   let lang = "fr";   (near the bottom)
+  ============================================================
+-->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Xavier W</title>
+  <title>Xavier W. — GIS &amp; Geomatics Portfolio</title>
+  <meta name="description" content="GIS & Geomatics portfolio — maps, spatial analysis and webmapping.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper:#f6f4ee;
+      --paper-2:#efece2;
+      --ink:#15302a;
+      --ink-soft:#3c5650;
+      --forest:#2e6b4f;
+      --moss:#6f9a82;
+      --ocean:#1f627f;
+      --sand:#d8cfb8;
+      --line:rgba(21,48,42,.13);
+      --line-strong:rgba(21,48,42,.22);
+      --display:"Space Grotesk",system-ui,sans-serif;
+      --body:"Inter",system-ui,sans-serif;
+      --mono:"IBM Plex Mono",ui-monospace,monospace;
+      --maxw:1080px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;background:var(--paper);color:var(--ink);
+      font-family:var(--body);font-size:17px;line-height:1.65;
+      -webkit-font-smoothing:antialiased;
+    }
+    a{color:inherit}
+    img{max-width:100%;display:block}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+    /* ---------- mono eyebrow / labels ---------- */
+    .eyebrow{
+      font-family:var(--mono);font-size:12.5px;letter-spacing:.18em;
+      text-transform:uppercase;color:var(--forest);
+      display:inline-flex;align-items:center;gap:9px;
+    }
+    .eyebrow::before{content:"";width:26px;height:1px;background:var(--forest);opacity:.6}
+
+    /* ---------- nav ---------- */
+    header.nav{
+      position:sticky;top:0;z-index:50;
+      background:rgba(246,244,238,.86);backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav-inner{display:flex;align-items:center;gap:20px;height:66px}
+    .brand{
+      font-family:var(--display);font-weight:600;font-size:18px;letter-spacing:-.01em;
+      text-decoration:none;margin-right:auto;display:flex;align-items:center;gap:10px;
+    }
+    .brand .pin{width:11px;height:11px;border-radius:50%;border:3px solid var(--forest)}
+    .nav-links{display:flex;gap:6px;align-items:center}
+    .nav-links a{
+      font-family:var(--mono);font-size:13px;letter-spacing:.02em;
+      text-decoration:none;color:var(--ink-soft);padding:7px 11px;border-radius:7px;
+      transition:color .2s,background .2s;
+    }
+    .nav-links a:hover{color:var(--ink);background:var(--paper-2)}
+    .nav-links a.active{color:var(--forest)}
+    .lang{
+      display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;
+      overflow:hidden;font-family:var(--mono);font-size:12.5px;margin-left:6px;
+    }
+    .lang button{
+      background:none;border:0;cursor:pointer;color:var(--ink-soft);
+      padding:6px 12px;font:inherit;transition:.2s;
+    }
+    .lang button.on{background:var(--forest);color:#fff}
+    .menu-btn{
+      display:none;background:none;border:1px solid var(--line-strong);
+      border-radius:8px;width:42px;height:38px;cursor:pointer;
+      font-size:20px;color:var(--ink);
+    }
+
+    /* ---------- hero ---------- */
+    .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+    .hero-bg{position:absolute;inset:0;z-index:0;opacity:.5;pointer-events:none}
+    .hero-bg svg{position:absolute;right:-8%;top:50%;transform:translateY(-50%);
+      width:min(720px,80vw);height:auto;color:var(--moss)}
+    .hero .wrap{position:relative;z-index:1;
+      display:grid;grid-template-columns:1.35fr .65fr;gap:48px;align-items:center;
+      padding-top:84px;padding-bottom:84px}
+    .hero h1{
+      font-family:var(--display);font-weight:600;
+      font-size:clamp(2.7rem,6.4vw,4.6rem);line-height:1.02;letter-spacing:-.025em;
+      margin:18px 0 0;
+    }
+    .hero .tagline{font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--ink-soft);
+      max-width:30ch;margin:20px 0 0}
+    .coords{font-family:var(--mono);font-size:13px;color:var(--ocean);
+      margin-top:26px;letter-spacing:.02em}
+    .cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+    .btn{
+      font-family:var(--mono);font-size:13.5px;letter-spacing:.03em;
+      text-decoration:none;padding:13px 22px;border-radius:9px;
+      border:1px solid var(--forest);transition:.2s;display:inline-flex;align-items:center;gap:8px;
+    }
+    .btn.primary{background:var(--forest);color:#fff}
+    .btn.primary:hover{background:#235640}
+    .btn.ghost{color:var(--forest)}
+    .btn.ghost:hover{background:var(--paper-2)}
+
+    .avatar-wrap{justify-self:center}
+    .avatar,.portrait{
+      width:min(260px,60vw);aspect-ratio:1;border-radius:18px;
+      border:1px solid var(--line-strong);object-fit:cover;
+    }
+    .avatar{
+      display:flex;align-items:center;justify-content:center;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(111,154,130,.35), transparent 60%),
+        var(--paper-2);
+      position:relative;overflow:hidden;
+    }
+    .avatar span{font-family:var(--display);font-size:84px;font-weight:600;color:var(--forest);opacity:.85}
+    .avatar small{position:absolute;bottom:12px;left:14px;font-family:var(--mono);
+      font-size:11px;color:var(--ink-soft);letter-spacing:.04em}
+
+    /* ---------- sections ---------- */
+    section{padding:84px 0;border-bottom:1px solid var(--line)}
+    .sec-head{margin-bottom:40px}
+    .sec-head h2{
+      font-family:var(--display);font-weight:600;
+      font-size:clamp(1.8rem,3.6vw,2.5rem);letter-spacing:-.02em;margin:14px 0 0;
+    }
+    .lead{font-size:1.12rem;color:var(--ink-soft);max-width:62ch}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+    .about-grid p{margin:0 0 16px}
+
+    /* ---------- project cards ---------- */
+    .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+    .card{
+      background:var(--paper-2);border:1px solid var(--line);border-radius:14px;
+      padding:24px 24px 26px;transition:transform .2s,border-color .2s;
+      display:flex;flex-direction:column;
+    }
+    .card:hover{transform:translateY(-3px);border-color:var(--line-strong)}
+    .tag{
+      align-self:flex-start;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--ocean);
+      border:1px solid rgba(31,98,127,.3);border-radius:999px;padding:4px 11px;margin-bottom:16px;
+    }
+    .card h3{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:0 0 10px;letter-spacing:-.01em}
+    .card p{margin:0 0 18px;font-size:.97rem;color:var(--ink-soft);flex:1}
+    .card-links{display:flex;gap:16px;flex-wrap:wrap}
+    .card-links a{font-family:var(--mono);font-size:12.5px;color:var(--forest);
+      text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+    .card-links a:hover{text-decoration:underline}
+
+    /* ---------- timeline (experience / education) ---------- */
+    .cv-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+    .timeline{position:relative;padding-left:26px}
+    .timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--line-strong)}
+    .entry{position:relative;padding-bottom:30px}
+    .entry:last-child{padding-bottom:0}
+    .entry::before{content:"";position:absolute;left:-25px;top:7px;width:11px;height:11px;
+      border-radius:50%;background:var(--paper);border:2px solid var(--forest)}
+    .entry .date{font-family:var(--mono);font-size:12px;color:var(--ocean);letter-spacing:.03em}
+    .entry h4{font-family:var(--display);font-weight:600;font-size:1.1rem;margin:6px 0 2px}
+    .entry .org{font-size:.92rem;color:var(--ink-soft);margin:0 0 8px}
+    .entry p{margin:0;font-size:.95rem;color:var(--ink-soft)}
+
+    /* ---------- skills ---------- */
+    .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:40px}
+    .skills-grid h3{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--forest);margin:0 0 18px}
+    .chips{display:flex;flex-wrap:wrap;gap:9px}
+    .chip{font-family:var(--mono);font-size:12.5px;background:var(--paper-2);
+      border:1px solid var(--line);border-radius:7px;padding:7px 12px;color:var(--ink-soft)}
+    .lang-row{display:flex;justify-content:space-between;align-items:baseline;
+      border-bottom:1px solid var(--line);padding:11px 0}
+    .lang-row:last-child{border-bottom:0}
+    .lang-row b{font-weight:500}
+    .lang-row em{font-family:var(--mono);font-size:12px;font-style:normal;color:var(--ocean)}
+
+    /* ---------- contact ---------- */
+    .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:8px}
+    .contact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;
+      padding:24px;text-decoration:none;transition:.2s;display:block}
+    .contact-card:hover{border-color:var(--forest);transform:translateY(-2px)}
+    .contact-card .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+      text-transform:uppercase;color:var(--ocean)}
+    .contact-card .v{font-size:1.02rem;margin-top:8px;word-break:break-word}
+
+    /* ---------- footer ---------- */
+    footer{padding:40px 0;text-align:center}
+    footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center}
+    footer span{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);letter-spacing:.03em}
+
+    /* ---------- reveal animation ---------- */
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.in{opacity:1;transform:none}
+
+    /* ---------- responsive ---------- */
+    @media(max-width:860px){
+      .hero .wrap{grid-template-columns:1fr;gap:36px;text-align:left;padding-top:60px;padding-bottom:64px}
+      .avatar-wrap{justify-self:start;order:-1}
+      .about-grid,.cv-grid{grid-template-columns:1fr;gap:34px}
+      .nav-links{
+        display:none;position:absolute;top:66px;left:0;right:0;flex-direction:column;
+        background:var(--paper);border-bottom:1px solid var(--line);padding:10px 16px 16px;gap:2px;
+      }
+      .nav-links.open{display:flex}
+      .nav-links a{padding:11px 8px}
+      .menu-btn{display:block}
+    }
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      .reveal{transition:none;opacity:1;transform:none}
+      .card:hover,.contact-card:hover{transform:none}
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, world 👋</h1>
-  <p>This is my GitHub Pages site.</p>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <!-- EDIT: your name / brand -->
+      <a href="#top" class="brand"><span class="pin"></span>Xavier&nbsp;W.</a>
+
+      <nav class="nav-links" id="navlinks">
+        <a href="#about"      data-en="About"      data-fr="À propos">About</a>
+        <a href="#projects"   data-en="Projects"   data-fr="Projets">Projects</a>
+        <a href="#experience" data-en="Experience" data-fr="Expérience">Experience</a>
+        <a href="#education"  data-en="Education"   data-fr="Formation">Education</a>
+        <a href="#skills"     data-en="Skills"      data-fr="Compétences">Skills</a>
+        <a href="#contact"    data-en="Contact"     data-fr="Contact">Contact</a>
+      </nav>
+
+      <div class="lang" role="group" aria-label="Language">
+        <button id="btn-en" class="on" onclick="setLang('en')">EN</button>
+        <button id="btn-fr" onclick="setLang('fr')">FR</button>
+      </div>
+
+      <button class="menu-btn" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <div class="hero" id="top">
+    <div class="hero-bg" aria-hidden="true">
+      <!-- topographic contour signature -->
+      <svg viewBox="0 0 800 800" fill="none" stroke="currentColor" stroke-width="1.4">
+        <g transform="translate(400 400)">
+          <path transform="scale(1)"    d="M0,-300 C120,-300 260,-200 280,-60 C300,80 200,220 60,280 C-80,340 -240,240 -290,90 C-340,-60 -180,-280 0,-300 Z"/>
+          <path transform="scale(.82)"  d="M0,-300 C120,-300 260,-200 280,-60 C300,80 200,220 60,280 C-80,340 -240,240 -290,90 C-340,-60 -180,-280 0,-300 Z"/>
+          <path transform="scale(.64)"  d="M0,-300 C120,-300 260,-200 280,-60 C300,80 200,220 60,280 C-80,340 -240,240 -290,90 C-340,-60 -180,-280 0,-300 Z"/>
+          <path transform="scale(.47)"  d="M0,-300 C120,-300 260,-200 280,-60 C300,80 200,220 60,280 C-80,340 -240,240 -290,90 C-340,-60 -180,-280 0,-300 Z"/>
+          <path transform="scale(.32)"  d="M0,-300 C120,-300 260,-200 280,-60 C300,80 200,220 60,280 C-80,340 -240,240 -290,90 C-340,-60 -180,-280 0,-300 Z"/>
+          <path transform="scale(.18)"  d="M0,-300 C120,-300 260,-200 280,-60 C300,80 200,220 60,280 C-80,340 -240,240 -290,90 C-340,-60 -180,-280 0,-300 Z"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="wrap">
+      <div>
+        <span class="eyebrow" data-en="Geomatics · GIS · Cartography" data-fr="Géomatique · SIG · Cartographie">Geomatics · GIS · Cartography</span>
+        <!-- EDIT: your name -->
+        <h1>Xavier&nbsp;W.</h1>
+        <p class="tagline"
+           data-en="GIS &amp; geomatics student turning spatial data into clear maps and decisions."
+           data-fr="Étudiant en SIG &amp; géomatique, je transforme la donnée spatiale en cartes et décisions claires.">
+           GIS &amp; geomatics student turning spatial data into clear maps and decisions.
+        </p>
+        <!-- EDIT: coordinates / location -->
+        <p class="coords">43.6047° N · 1.4442° E — Toulouse, FR</p>
+        <div class="cta-row">
+          <a href="#projects" class="btn primary" data-en="View projects" data-fr="Voir les projets">View projects</a>
+          <a href="#contact"  class="btn ghost"   data-en="Get in touch"  data-fr="Me contacter">Get in touch</a>
+        </div>
+      </div>
+
+      <div class="avatar-wrap">
+        <!-- EDIT: replace this whole .avatar block with:
+             <img src="images/portrait.jpg" alt="Xavier W." class="portrait"> -->
+        <div class="avatar">
+          <span>X</span>
+          <small data-en="Add images/portrait.jpg" data-fr="Ajoutez images/portrait.jpg">Add images/portrait.jpg</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Profile</span>
+        <h2 data-en="About me" data-fr="À propos">About me</h2>
+      </div>
+      <div class="about-grid reveal">
+        <!-- EDIT: your bio -->
+        <div>
+          <p data-en="I'm a GIS and geomatics student passionate about cartography and spatial analysis. I enjoy turning raw geographic data into maps and tools that help people make decisions."
+             data-fr="Étudiant en SIG et géomatique, je suis passionné par la cartographie et l'analyse spatiale. J'aime transformer des données géographiques brutes en cartes et outils d'aide à la décision.">
+             I'm a GIS and geomatics student passionate about cartography and spatial analysis. I enjoy turning raw geographic data into maps and tools that help people make decisions.
+          </p>
+        </div>
+        <div>
+          <p data-en="My work spans remote sensing, spatial databases and webmapping. I'm comfortable across the toolchain — from QGIS and PostGIS to Python and Leaflet — and I care about clean, readable cartographic output."
+             data-fr="Mon travail couvre la télédétection, les bases de données spatiales et le webmapping. Je suis à l'aise sur toute la chaîne — de QGIS et PostGIS à Python et Leaflet — avec le souci d'une cartographie claire et lisible.">
+             My work spans remote sensing, spatial databases and webmapping. I'm comfortable across the toolchain — from QGIS and PostGIS to Python and Leaflet — and I care about clean, readable cartographic output.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROJECTS ===================== -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Fieldwork</span>
+        <h2 data-en="Projects" data-fr="Projets">Projects</h2>
+        <p class="lead" data-en="A selection of mapping and spatial-analysis projects. Replace these with your own."
+           data-fr="Une sélection de projets de cartographie et d'analyse spatiale. Remplacez-les par les vôtres.">
+           A selection of mapping and spatial-analysis projects. Replace these with your own.</p>
+      </div>
+
+      <div class="cards">
+        <!-- EDIT: project 1 -->
+        <article class="card reveal">
+          <span class="tag" data-en="Remote sensing" data-fr="Télédétection">Remote sensing</span>
+          <h3 data-en="Urban heat island mapping" data-fr="Cartographie des îlots de chaleur">Urban heat island mapping</h3>
+          <p data-en="Modelled thermal intensity from Landsat imagery and crossed it with census data to flag the most vulnerable urban areas."
+             data-fr="Modélisation de l'intensité thermique à partir d'images Landsat, croisée avec les données du recensement pour identifier les zones urbaines les plus vulnérables.">
+             Modelled thermal intensity from Landsat imagery and crossed it with census data to flag the most vulnerable urban areas.</p>
+          <div class="card-links">
+            <a href="#" data-en="↗ View PDF" data-fr="↗ Voir le PDF">↗ View PDF</a>
+            <a href="#" data-en="↗ Web map" data-fr="↗ Webmap">↗ Web map</a>
+          </div>
+        </article>
+
+        <!-- EDIT: project 2 -->
+        <article class="card reveal">
+          <span class="tag" data-en="Cartography" data-fr="Cartographie">Cartography</span>
+          <h3 data-en="Hydrological network of a river basin" data-fr="Réseau hydrographique d'un bassin">Hydrological network of a river basin</h3>
+          <p data-en="A technical map of waterways and hydraulic infrastructure built from IGN's BD TOPO, with a colour-coded breakdown by sub-basin."
+             data-fr="Carte technique du réseau hydrographique et des ouvrages hydrauliques à partir de la BD TOPO de l'IGN, avec une lecture par sous-bassins.">
+             A technical map of waterways and hydraulic infrastructure built from IGN's BD TOPO, with a colour-coded breakdown by sub-basin.</p>
+          <div class="card-links">
+            <a href="#" data-en="↗ View PDF" data-fr="↗ Voir le PDF">↗ View PDF</a>
+          </div>
+        </article>
+
+        <!-- EDIT: project 3 -->
+        <article class="card reveal">
+          <span class="tag" data-en="Spatial analysis" data-fr="Analyse spatiale">Spatial analysis</span>
+          <h3 data-en="Demographic dependency mapping" data-fr="Cartographie de la dépendance démographique">Demographic dependency mapping</h3>
+          <p data-en="A bivariate map combining population (proportional circles) and unemployment (Jenks classes) to read regional dynamics at a glance."
+             data-fr="Carte bivariée combinant population (cercles proportionnels) et chômage (classes de Jenks) pour lire les dynamiques régionales d'un coup d'œil.">
+             A bivariate map combining population (proportional circles) and unemployment (Jenks classes) to read regional dynamics at a glance.</p>
+          <div class="card-links">
+            <a href="#" data-en="↗ View PDF" data-fr="↗ Voir le PDF">↗ View PDF</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EXPERIENCE + EDUCATION ===================== -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="cv-grid">
+        <!-- EXPERIENCE -->
+        <div class="reveal">
+          <div class="sec-head">
+            <span class="eyebrow">Record</span>
+            <h2 data-en="Experience" data-fr="Expérience">Experience</h2>
+          </div>
+          <div class="timeline">
+            <!-- EDIT: experience entries -->
+            <div class="entry">
+              <span class="date">2025 — 2025</span>
+              <h4 data-en="GIS Operator (Internship)" data-fr="Opérateur SIG (stage)">GIS Operator (Internship)</h4>
+              <p class="org" data-en="Research lab — Cartography &amp; Data unit" data-fr="Laboratoire de recherche — Pôle cartographie &amp; données">Research lab — Cartography &amp; Data unit</p>
+              <p data-en="Statistical analysis in R, contributions to a virtual-globes catalogue, and coastal-erosion fieldwork."
+                 data-fr="Analyse statistique sur R, contributions à un catalogue de globes virtuels et étude de terrain sur l'érosion côtière.">
+                 Statistical analysis in R, contributions to a virtual-globes catalogue, and coastal-erosion fieldwork.</p>
+            </div>
+            <div class="entry">
+              <span class="date">2024</span>
+              <h4 data-en="Project assistant" data-fr="Assistant de projet">Project assistant</h4>
+              <p class="org" data-en="Erasmus programme" data-fr="Programme Erasmus">Erasmus programme</p>
+              <p data-en="Supported European delegations and helped share knowledge on sustainable practices."
+                 data-fr="Accompagnement de délégations européennes et diffusion de connaissances sur les pratiques durables.">
+                 Supported European delegations and helped share knowledge on sustainable practices.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDUCATION (anchored separately for the nav) -->
+        <div class="reveal" id="education">
+          <div class="sec-head">
+            <span class="eyebrow">Record</span>
+            <h2 data-en="Education" data-fr="Formation">Education</h2>
+          </div>
+          <div class="timeline">
+            <!-- EDIT: education entries -->
+            <div class="entry">
+              <span class="date">2025 — 2026</span>
+              <h4 data-en="Master 1 — GIS &amp; Spatial Planning" data-fr="Master 1 — SIG &amp; aménagement">Master 1 — GIS &amp; Spatial Planning</h4>
+              <p class="org">INP ENSAT · Université Toulouse Jean Jaurès</p>
+              <p data-en="Spatial databases, remote sensing, advanced GIS programming and webmapping."
+                 data-fr="Bases de données spatiales, télédétection, programmation SIG avancée et webmapping.">
+                 Spatial databases, remote sensing, advanced GIS programming and webmapping.</p>
+            </div>
+            <div class="entry">
+              <span class="date">2022 — 2025</span>
+              <h4 data-en="BSc — Geography &amp; Environment" data-fr="Licence — Géographie &amp; environnement">BSc — Geography &amp; Environment</h4>
+              <p class="org" data-en="University" data-fr="Université">University</p>
+              <p data-en="Territorial dynamics, digital geography, cartography and applied statistics."
+                 data-fr="Dynamiques territoriales, géographie numérique, cartographie et statistiques appliquées.">
+                 Territorial dynamics, digital geography, cartography and applied statistics.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SKILLS ===================== -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Toolkit</span>
+        <h2 data-en="Skills" data-fr="Compétences">Skills</h2>
+      </div>
+      <div class="skills-grid reveal">
+        <!-- EDIT: languages -->
+        <div>
+          <h3 data-en="Languages" data-fr="Langues">Languages</h3>
+          <div class="lang-row"><b data-en="French" data-fr="Français">French</b><em data-en="Native" data-fr="Maternelle">Native</em></div>
+          <div class="lang-row"><b data-en="English" data-fr="Anglais">English</b><em data-en="Fluent" data-fr="Courant">Fluent</em></div>
+        </div>
+        <!-- EDIT: technical tools -->
+        <div>
+          <h3 data-en="Technical" data-fr="Technique">Technical</h3>
+          <div class="chips">
+            <span class="chip">QGIS</span><span class="chip">ArcGIS</span><span class="chip">PostGIS</span>
+            <span class="chip">Python</span><span class="chip">SQL</span><span class="chip">Leaflet</span>
+            <span class="chip">R</span><span class="chip">HTML / CSS</span>
+            <span class="chip" data-en="Remote sensing" data-fr="Télédétection">Remote sensing</span>
+          </div>
+        </div>
+        <!-- EDIT: soft skills -->
+        <div>
+          <h3 data-en="Strengths" data-fr="Qualités">Strengths</h3>
+          <div class="chips">
+            <span class="chip" data-en="Rigorous" data-fr="Rigueur">Rigorous</span>
+            <span class="chip" data-en="Autonomous" data-fr="Autonome">Autonomous</span>
+            <span class="chip" data-en="Organised" data-fr="Organisé">Organised</span>
+            <span class="chip" data-en="Team player" data-fr="Esprit d'équipe">Team player</span>
+            <span class="chip" data-en="Curious" data-fr="Curieux">Curious</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Coordinates</span>
+        <h2 data-en="Get in touch" data-fr="Me contacter">Get in touch</h2>
+        <p class="lead" data-en="Open to internships and collaborations in GIS, cartography and spatial data."
+           data-fr="Ouvert aux stages et collaborations en SIG, cartographie et données spatiales.">
+           Open to internships and collaborations in GIS, cartography and spatial data.</p>
+      </div>
+      <div class="contact-grid reveal">
+        <!-- EDIT: contact details -->
+        <a class="contact-card" href="mailto:you@example.com">
+          <div class="k">Email</div>
+          <div class="v">you@example.com</div>
+        </a>
+        <a class="contact-card" href="https://github.com/xavierw05">
+          <div class="k">GitHub</div>
+          <div class="v">github.com/xavierw05</div>
+        </a>
+        <a class="contact-card" href="https://www.linkedin.com/">
+          <div class="k">LinkedIn</div>
+          <div class="v" data-en="Connect on LinkedIn" data-fr="Sur LinkedIn">Connect on LinkedIn</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Xavier W.</span>
+      <span data-en="Built with GitHub Pages" data-fr="Réalisé avec GitHub Pages">Built with GitHub Pages</span>
+    </div>
+  </footer>
+
+  <script>
+    // ---------- language toggle ----------
+    let lang = "en"; // EDIT: change to "fr" to start in French
+    function setLang(l){
+      lang = l;
+      document.documentElement.lang = l;
+      document.querySelectorAll("[data-en]").forEach(el=>{
+        const t = el.getAttribute("data-"+l);
+        if(t!==null) el.innerHTML = t;
+      });
+      document.getElementById("btn-en").classList.toggle("on", l==="en");
+      document.getElementById("btn-fr").classList.toggle("on", l==="fr");
+    }
+    setLang(lang);
+
+    // ---------- close mobile menu on link click ----------
+    document.querySelectorAll("#navlinks a").forEach(a=>{
+      a.addEventListener("click",()=>document.getElementById("navlinks").classList.remove("open"));
+    });
+
+    // ---------- scroll reveal ----------
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
+    },{threshold:.12});
+    document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+
+    // ---------- active nav link on scroll ----------
+    const links = [...document.querySelectorAll("#navlinks a")];
+    const navIo = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const id = e.target.id;
+          links.forEach(a=>a.classList.toggle("active", a.getAttribute("href")==="#"+id));
+        }
+      });
+    },{rootMargin:"-45% 0px -50% 0px"});
+    document.querySelectorAll("section[id]").forEach(s=>navIo.observe(s));
+  </script>
 </body>
 </html>
